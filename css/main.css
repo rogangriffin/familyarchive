@@ -1,0 +1,15 @@
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+  background-color: #eee;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+.commentdate {
+    color: rgb(153, 153, 153);
+    margin-left: 10px;
+    font-weight: 100;
+}
