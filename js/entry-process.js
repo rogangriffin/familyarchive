@@ -1,10 +1,24 @@
-mainApp.factory('entryProcessService', function( $injector ) {
-    var obj = {};
+mainApp.service('entryProcessService', function( $injector ) {
+    /*
+    We call this service to process the json entries we get from the server.
+    For each entry .processEntry is called, which in turn calls functions which
+    format the text, retrieve attachments, etc.
+    */
+
+    //Hold a dictionary of attachments services that have already been injected
+    //into this service so we don't inject twice
+    var injectedAttachmentServices = {};
     
-    //Inject our attachment services
-    //var entryProcessService = $injector.get('entryProcessService')
-    
-    obj.formattedDate = function(dateStr){
+    this.processEntry = function ( entry ) {
+        entry.images = []; //We have a seperate image list to our attachments
+                            //list because we could have multiple images per
+                            //attachment
+        entry.date = this.formattedDate ( entry.date );
+        this.formatTitle ( entry );
+        this.retrieveAttachments ( entry );
+    };
+
+    this.formattedDate = function(dateStr){
         dateObj = new Date(dateStr);
         var month = dateObj.getMonth();
         var monthList = ['January','February','March','April','May','June','July','August','September','October','November','December']; 
@@ -12,11 +26,14 @@ mainApp.factory('entryProcessService', function( $injector ) {
         return strOut;
     };
     
-    obj.formatTitle = function(entry) {
+    this.formatTitle = function(entry) {
+        //If the entry has no content use the entry's date as the title.
         var entryTitle = entry.date;
         var entryContent = "";
         var titleText = entry.content;
         if(titleText){
+            //If the content has a line break use the first line as the title
+            //as long as it is less than 100 characters
             var firstSplit = titleText.indexOf('\n');
             if(firstSplit != -1){
                 var contentSplit = titleText.split("\n");
@@ -27,6 +44,8 @@ mainApp.factory('entryProcessService', function( $injector ) {
                     entryContent = titleText.replace(/\n/g, '<br />');
                 }
             } else {
+                //If the content has no line break but is less than 100 characters
+                //then use it as the title
                 if (titleText.length<100){
                     entryTitle = titleText;
                 } else {
@@ -38,85 +57,26 @@ mainApp.factory('entryProcessService', function( $injector ) {
         entry['content'] = entryContent;
     }
     
-    obj.retrieveAttachments = function ( entry ) {
-        for ( var i=0; i < entry.attachments.length; i++ ){
+    this.retrieveAttachments = function ( entry ) {
+        //For each attachment use the attachment service for the given
+        //attachment type and call its getImages function to get the image
+        //list that the entry will use
+        for ( var i = 0; i < entry.attachments.length; i++ ){
             var attachmentItem = entry.attachments [ i ];
-            var attachmentKey = attachmentItem [ 0 ];
-            var attachmentFile = attachmentItem [ 1 ];
             var attachmentType = attachmentItem [ 2 ];
             
-            if ( attachmentType == "video" ){
-                
-                //Add the YouTube thumbnail to our image list
-                image = { attachment: attachmentItem, 
-                          thumbnailsrc: obj.getYouTubeThumbnail ( attachmentFile, "big" ) };
-                entry.images.push ( image );
-                
-            } else if ( attachmentType == "picasa" ){
-                
-                //Format the URL to one for performing our API call
-                var urlStart = attachmentFile.substring(0, attachmentFile.lastIndexOf('/'));
-                var urlEnd = attachmentFile.split("/").pop();
-                urlStart = urlStart.replace("https://picasaweb.google.com/", "http://picasaweb.google.com/data/feed/api/user/");
-                var url = urlStart + "/album/" + urlEnd + "&alt=json";
-                url = url.replace("#", "");
-                
-                /*
-                //Make a call to the PicasaWeb API for album data
-                $http.get(url).success(function(data) {
-			        for ( var j = 0; j < data.feed.entry.length; j++ ){
-				        var entry = data.feed.entry[j];
-				        var thumbnail = entry['media$group']['media$thumbnail'][2]['url'];
-                        var thumbnailWidth = entry['media$group']['media$thumbnail'][2]['width'];
-                        var thumbnailHeight = entry['media$group']['media$thumbnail'][2]['height'];
-                        var title = entry['title']['$t'];
-                        var thumbnailDic = {"thumbnail": thumbnail,'attachmentType': attachmentType, 'attachmentKey': attachmentKey,'thumbnailwidth':thumbnailWidth,'thumbnailheight':thumbnailHeight,'metaindex':i}
-                if(title.indexOf(".mp4") != -1){
-                    //This is a Picasa Video
-                    var contentList = entry['media$group']['media$content'];
-                    var fmt = get_fmt(contentList);
-                    thumbnailDic['large'] = "picasavideo";
-                    thumbnailDic['fmt_list'] = encodeURIComponent(fmt.list.join())
-                    thumbnailDic['fmt_stream_map'] = encodeURIComponent(fmt.stream_map.join())
-                    attachmentThumbnails.push(thumbnailDic);
-                } else {
-                    //This is a Picasa photo
-                    var large = entry['content']['src'];
-                    var urlbef = large.substring(0, large.lastIndexOf('/'));
-                    var urlaft = large.substring(large.lastIndexOf('/'));
-                    thumbnailDic['large'] = urlbef + "/s600" + urlaft;
-                    attachmentThumbnails.push(thumbnailDic);
-                 }
-                });
-            */
+            //Inject the attachment service as a dependency for this service
+            //if it hasn't already been injected
+            var serviceName = attachmentType + "AttachmentService";
+            if ( injectedAttachmentServices.hasOwnProperty ( serviceName )) {
+                var attachmentService = injectedAttachmentServices [ serviceName ];
+            } else {
+                var attachmentService = $injector.get ( serviceName );
+                injectedAttachmentServices [ serviceName ] = attachmentService;
             }
             
-            
+            attachmentService.getImages ( entry, attachmentItem );
         }
     }
-    
-    obj.processEntry = function ( entry ) {
-        entry.images = []; //We have a seperate image list to our attachments
-                            //list because we could have multiple images per
-                            //attachment
-        entry.date = obj.formattedDate ( entry.date );
-        obj.formatTitle ( entry );
-        obj.retrieveAttachments ( entry );
-    };
-    
-    obj.getYouTubeThumbnail = function ( url, size ){
-        if(url === null){ return ""; }
-        size = (size === null) ? "big" : size;
-        var vid;
-        var results;
-        results = url.match("[\\?&]v=([^&#]*)");
-        vid = ( results === null ) ? url : results[1];
-        if (size == "small"){
-            return "http://img.youtube.com/vi/"+vid+"/2.jpg";
-        } else {
-            return "http://img.youtube.com/vi/"+vid+"/0.jpg";
-        }
-    };
-    
-    return obj;
+
 });
