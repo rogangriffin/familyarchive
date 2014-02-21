@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="familyarchiveApp">
+  <head>
+
+    <title>Family Archive - Testing</title>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js'></script>
+    <script src='js/lodash.min.js'></script>
+    <script src='js/main.js'></script>
+    <script src='js/entries.js'></script>
+    <script src='js/test.js'></script>
+    <script src='js/entry-process.js'></script>
+    <script src='js/services/youtube.js'></script>
+    <script src='js/services/picasaweb.js'></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+  </head>
+
+  <body>
+
+    <div ng-controller="TestCtrl">
+    
+        <div class='{{test.getClass()}}' ng-repeat="test in tests">
+            {{test.getStatus()}}
+        </div>
+    
+    </div>
+
+  </body>
+</html>

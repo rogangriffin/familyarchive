@@ -8,7 +8,7 @@ mainApp.service('entryProcessService', function( $injector ) {
     //Hold a dictionary of attachments services that have already been injected
     //into this service so we don't inject twice
     var injectedAttachmentServices = {};
-    
+
     this.processEntry = function ( entry ) {
         entry.images = []; //We have a seperate image list to our attachments
                             //list because we could have multiple images per
@@ -61,21 +61,23 @@ mainApp.service('entryProcessService', function( $injector ) {
         //For each attachment use the attachment service for the given
         //attachment type and call its getImages function to get the image
         //list that the entry will use
-        for ( var i = 0; i < entry.attachments.length; i++ ){
-            var attachmentItem = entry.attachments [ i ];
-            var attachmentType = attachmentItem [ 2 ];
-            
-            //Inject the attachment service as a dependency for this service
-            //if it hasn't already been injected
-            var serviceName = attachmentType + "AttachmentService";
-            if ( injectedAttachmentServices.hasOwnProperty ( serviceName )) {
-                var attachmentService = injectedAttachmentServices [ serviceName ];
-            } else {
-                var attachmentService = $injector.get ( serviceName );
-                injectedAttachmentServices [ serviceName ] = attachmentService;
+        if(entry.attachments){
+            for ( var i = 0; i < entry.attachments.length; i++ ){
+                var attachmentItem = entry.attachments [ i ];
+                var attachmentType = attachmentItem [ 2 ];
+                
+                //Inject the attachment service as a dependency for this service
+                //if it hasn't already been injected
+                var serviceName = attachmentType + "AttachmentService";
+                if ( injectedAttachmentServices.hasOwnProperty ( serviceName )) {
+                    var attachmentService = injectedAttachmentServices [ serviceName ];
+                } else {
+                    var attachmentService = $injector.get ( serviceName );
+                    injectedAttachmentServices [ serviceName ] = attachmentService;
+                }
+                
+                attachmentService.getImages ( entry, attachmentItem );
             }
-            
-            attachmentService.getImages ( entry, attachmentItem );
         }
     }
 
