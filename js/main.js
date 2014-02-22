@@ -1,1 +1,1 @@
-var mainApp = angular.module('familyarchiveApp', []);
+var mainApp = angular.module('familyarchiveApp', ['ui.bootstrap']);

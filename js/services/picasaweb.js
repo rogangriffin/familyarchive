@@ -1,4 +1,6 @@
 var picasawebService = mainApp.service('picasawebAttachmentService', function( $http ) {
+    
+    var that = this;
 
     this.getImages = function ( entry, attachment ) {
         
@@ -23,7 +25,8 @@ var picasawebService = mainApp.service('picasawebAttachmentService', function( $
                               thumbnailsrc: thumbnail,
                               thumbnailwidth: thumbnailWidth,
                               thumbnailheight: thumbnailHeight,
-                              orderindex: j
+                              orderindex: j,
+                              service: that
                             };
                 if(title.indexOf(".mp4") != -1){
                     //This is a Picasa Video
@@ -42,6 +45,10 @@ var picasawebService = mainApp.service('picasawebAttachmentService', function( $
                 entry.images.push ( image );
             }
         });
+    }
+    
+    this.getModalHTMLTemplate = function (){
+        return "js/services/picasaweb-modal.html"
     }
 
 });

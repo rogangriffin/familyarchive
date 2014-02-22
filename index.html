@@ -5,6 +5,7 @@
     <title>Family Archive</title>
 
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js'></script>
+    <script src='js/thirdparty/ui-bootstrap-tpls-0.10.0.min.js'></script>
     <script src='js/main.js'></script>
     <script src='js/entries.js'></script>
     <script src='js/entry-process.js'></script>
@@ -49,7 +50,8 @@
             </div>
             <div class="panel-body">
                 {{entry.content}}
-                <img ng-repeat="image in entry.images" src="{{image.thumbnailsrc}}" class="image-thumbnail"></img>
+                <img ng-repeat="image in entry.images" src="{{image.thumbnailsrc}}" 
+                     class="image-thumbnail" ng-click="clickImage(image)"></img>
             </div>
             <div class="panel-footer">
                 <div ng-repeat="comment in entry.comments" class="small comment">

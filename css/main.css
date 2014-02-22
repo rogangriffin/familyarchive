@@ -35,6 +35,32 @@ body {
     margin-right: 5px;
 }
 
+.modal-image {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-image .modal-content {
+    background-color: #000;
+}
+
+.modal-image .modal-dialog {
+    width: auto;
+    display: inline-block;
+}
+
+.modal-image .modal-dialog .modal-header {
+    text-align: right;
+    padding-top: 5px;
+    padding-right: 5px;
+    border-bottom: 0px;
+}
+
+.modal-image .modal-body {
+    padding-top: 0px;
+    text-align: center;
+}
+
 .test-pass {
     color: #0a0;
     margin-left: 30px;
