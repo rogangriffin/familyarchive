@@ -1,4 +1,4 @@
-mainApp.controller ( 'TestCtrl', function ( $scope, entryProcessService ) {
+mainApp.controller ( 'TestCtrl', function ( $scope, $sce, entryProcessService, youtubeAttachmentService, picasawebAttachmentService ) {
     $scope.tests = [];
 
     $scope.addTest = function( input, bindClass, callFunc, expectedOutput, testDescription ){
@@ -56,13 +56,13 @@ mainApp.controller ( 'TestCtrl', function ( $scope, entryProcessService ) {
     $scope.addTest ( { date: "01/01/1981", attachments: [["","http://www.youtube.com/watch?v=VzzLngXfCcI","youtube"]] }, 
                      entryProcessService,
                      entryProcessService.processEntry,
-                     {"date":"January 1, 1981","attachments":[["","http://www.youtube.com/watch?v=VzzLngXfCcI","youtube"]],"images":[{"thumbnailsrc":"http://img.youtube.com/vi/VzzLngXfCcI/0.jpg","attachment":["","http://www.youtube.com/watch?v=VzzLngXfCcI","youtube"]}],"title":"January 1, 1981","content":""},
+                     {"date":"January 1, 1981","attachments":[["","http://www.youtube.com/watch?v=VzzLngXfCcI","youtube"]],"images":[{"thumbnailsrc":"http://img.youtube.com/vi/VzzLngXfCcI/0.jpg","attachment":["","http://www.youtube.com/watch?v=VzzLngXfCcI","youtube"],"large":'http://www.youtube.com/embed/VzzLngXfCcI?autoplay=1',"service":youtubeAttachmentService}],"title":"January 1, 1981","content":""},
                      "youtubeAttachmentService" );
 
     $scope.addTest ( { date: "01/01/1981", attachments: [["","https://picasaweb.google.com/112347770428957375603/RandburgWinter1982?authkey=Gv1sRgCN35tv3w442JWA","picasaweb"]] }, 
                      entryProcessService,
                      entryProcessService.processEntry,
-                     {"date":"January 1, 1981","attachments":[["","https://picasaweb.google.com/112347770428957375603/RandburgWinter1982?authkey=Gv1sRgCN35tv3w442JWA","picasaweb"]],"images":[{"attachment":["","https://picasaweb.google.com/112347770428957375603/RandburgWinter1982?authkey=Gv1sRgCN35tv3w442JWA","picasaweb"],"thumbnailsrc":"http://lh3.ggpht.com/-keHOfWufPOU/UmF36FVt3LI/AAAAAAAACzM/73mM5KJNq6c/s288/photo%252520%2525284%252529.JPG","thumbnailwidth":225,"thumbnailheight":288,"orderindex":0,"large":"http://lh3.ggpht.com/-keHOfWufPOU/UmF36FVt3LI/AAAAAAAACzM/73mM5KJNq6c/s600/photo%252520%2525284%252529.JPG"}],"title":"January 1, 1981","content":""},
+                     {"date":"January 1, 1981","attachments":[["","https://picasaweb.google.com/112347770428957375603/RandburgWinter1982?authkey=Gv1sRgCN35tv3w442JWA","picasaweb"]],"images":[{"attachment":["","https://picasaweb.google.com/112347770428957375603/RandburgWinter1982?authkey=Gv1sRgCN35tv3w442JWA","picasaweb"],"thumbnailsrc":"http://lh3.ggpht.com/-keHOfWufPOU/UmF36FVt3LI/AAAAAAAACzM/73mM5KJNq6c/s288/photo%252520%2525284%252529.JPG","thumbnailwidth":225,"thumbnailheight":288,"orderindex":0,"service":picasawebAttachmentService,"large":"http://lh3.ggpht.com/-keHOfWufPOU/UmF36FVt3LI/AAAAAAAACzM/73mM5KJNq6c/s600/photo%252520%2525284%252529.JPG"}],"title":"January 1, 1981","content":""},
                      "picasawebAttachmentService" );
 
 

@@ -5,7 +5,10 @@
     <title>Family Archive</title>
 
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js'></script>
+    <script src='js/thirdparty/jquery-1.11.0.min.js'></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script src='js/thirdparty/ui-bootstrap-tpls-0.10.0.min.js'></script>
+    <script src='js/thirdparty/bootbox.min.js'></script>
     <script src='js/main.js'></script>
     <script src='js/entries.js'></script>
     <script src='js/entry-process.js'></script>
@@ -45,8 +48,13 @@
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left">{{entry.title}}</h4>
                 <span class="date">{{entry.date}}</span>
-                <span class="glyphicon glyphicon-chevron-down pull-right panel-button"></span>
-                <span class="glyphicon glyphicon-picture pull-right panel-button"></span>
+                <div class="btn-group pull-right">
+                    <span class="glyphicon glyphicon-chevron-down pull-right panel-button dropdown-toggle"></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" ng-click="deleteEntry(entry)">Delete entry</a></li>
+                    </ul>
+                    <span class="glyphicon glyphicon-picture pull-right panel-button"></span>
+                </div>
             </div>
             <div class="panel-body">
                 {{entry.content}}

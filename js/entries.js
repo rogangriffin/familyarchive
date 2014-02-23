@@ -28,4 +28,19 @@ var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, 
         });
     }
     
+    $scope.deleteEntry = function ( entry ) {
+        
+        //Pop up a dialog confirming that the user wants to delete this entry
+        bootbox.confirm("Are you sure you want to delete this entry?", function(result) {
+            if ( result === true ){
+                
+                //Remove the entry from the entries array and call scope
+                //$apply to force a angularJS refresh
+                $scope.entries.splice( $.inArray( entry, $scope.entries), 1 );
+                $scope.$apply();
+            }
+        }); 
+
+    }
+    
 });
