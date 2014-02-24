@@ -61,6 +61,33 @@ body {
     text-align: center;
 }
 
+.bootstrap .tags {
+    background-color: #fff;
+    border: 0px solid #fff;
+    box-shadow: none;
+    -webkit-appearance: none;
+}
+
+.bootstrap .tags .tag-item {
+    background: #eee;
+    border: 0px;
+    border-radius: 4px;
+    color: rgb(153, 153, 153);
+}
+
+.bootstrap .tags .tag-input {
+    font-weight: 200;
+}
+
+.bootstrap .tags .tag-item span {
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.bootstrap .tags .tag-item button {
+    color: rgb(153, 153, 153);
+}
+
 .test-pass {
     color: #0a0;
     margin-left: 30px;

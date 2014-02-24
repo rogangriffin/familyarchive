@@ -9,17 +9,19 @@
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script src='js/thirdparty/ui-bootstrap-tpls-0.10.0.min.js'></script>
     <script src='js/thirdparty/bootbox.min.js'></script>
+    <script src='js/thirdparty/ng-tags-input.min.js'></script>
     <script src='js/main.js'></script>
     <script src='js/entries.js'></script>
     <script src='js/entry-process.js'></script>
     <script src='js/services/youtube.js'></script>
     <script src='js/services/picasaweb.js'></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/ng-tags-input.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
 
   </head>
 
-  <body>
+  <body ng-controller="EntriesCtrl">
 
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -36,13 +38,13 @@
         <div class="navbar-collapse collapse">
         
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Add Entry</a></li>
+            <li><a href="#" ng-click="addEntry()">Add Entry</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
-    <div class="container" ng-controller="EntriesCtrl">
+    <div class="container">
     
         <div class="panel" ng-repeat="entry in entries">
             <div class="panel-heading clearfix">
@@ -70,7 +72,7 @@
                     {{comment.content}}
                 </div>
             </div>
-            
+            <tags-input ng-model="entry.tags"custom-class="bootstrap"></tags-input>
         </div>
         
 

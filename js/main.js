@@ -1,1 +1,1 @@
-var mainApp = angular.module('familyarchiveApp', ['ui.bootstrap']);
+var mainApp = angular.module('familyarchiveApp', ['ui.bootstrap','ngTagsInput']);
