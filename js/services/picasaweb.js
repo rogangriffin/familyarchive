@@ -1,4 +1,4 @@
-var picasawebService = mainApp.service('picasawebAttachmentService', function( $http, $rootScope ) {
+var picasawebService = mainApp.service('picasawebAttachmentService', function( $http ) {
     
     var that = this;
 
@@ -45,21 +45,10 @@ var picasawebService = mainApp.service('picasawebAttachmentService', function( $
                 entry.images.push ( image );
             }
         });
-
     }
     
     this.getModalHTMLTemplate = function (){
         return "js/services/picasaweb-modal.html"
     }
 
-    $rootScope.attachmentServices.push("picasaweb");
-
-
-});
-
-mainApp.directive('picasawebAddDirective', function () {
-    return {
-        template: '<div><h5>URL of unlisted/public PicasaWeb Album:</h5><p class="small">(Copy from address bar at the top of the page when on the album in PicasaWeb, not in Google+ photos)</p><input type="text" class="form-control" ng-model="attachment.url"/><button class="btn btn-primary pull-right" ng-click="addAttachment(attachment)">Submit</button><div class="clear"></div></div>',
-        restrict: 'E'
-    };
 });

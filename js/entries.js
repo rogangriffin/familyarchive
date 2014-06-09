@@ -1,39 +1,12 @@
-var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, $modal, $firebaseSimpleLogin, entryProcessService ) {
+var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, $modal, entryProcessService ) {
     $scope.entries = [];
-
-    /*
+    
     $http.get ( 'entries.json' ).success( function ( data ) {
         $scope.entries = data;
         for ( var i = 0; i < $scope.entries.length; i++ ){
             entryProcessService.processEntry( $scope.entries [ i ] );
         }
     });
-    */
-
-    $scope.loginScreen = function(){
-        var modalInstance = $modal.open({
-            templateUrl: "modal-login.html",
-            controller: function ($scope, $modalInstance, loginObj) {
-                $scope.selectLoginService = function(service){
-                    loginObj.$login(service, {
-                        scope: 'email',
-                        rememberMe: true
-                    }).then(function(user) {
-                        console.log('Logged in as: ', user.uid);
-                        console.log(user);
-                        $modalInstance.close();
-                    }, function(error) {
-                        console.error('Login failed: ', error);
-                    });
-                }
-            },
-            resolve: {
-                loginObj: function () {
-                    return $scope.loginObj;
-                }
-            }
-        });
-    }
     
     $scope.addEntry = function ( ) {
         //Adds a new entry containing only the current date, adds it to the
@@ -45,37 +18,6 @@ var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, 
         var entry = { date: dateString };
         $scope.entries.unshift ( entry );
         entryProcessService.processEntry( entry );
-    }
-    
-    $scope.clickAddAttachment = function( entry ){
-        var modalInstance = $modal.open({
-            templateUrl: "modal-addattachment.html",
-            controller: function ($scope, $compile, $timeout, $rootScope, $modalInstance) {
-
-                $scope.tabs = $rootScope.attachmentServices;
-
-                $timeout(function(){
-                    $scope.currentTab = $scope.tabs[0];
-                    for(var i = 0; i < $scope.tabs.length; i++){
-                        var tabName = $scope.tabs[i];
-                        var chart = angular.element(document.createElement(tabName + '-add-directive'));
-                        var el = $compile( chart )( $scope );
-                        angular.element( document.querySelector( '#inject-' + tabName )).append(chart);
-                    }
-                },0);
-
-                $scope.selectTab = function(tabName){
-                    $scope.currentTab = tabName;
-                }
-
-                $scope.addAttachment = function(attachment){
-                    var attachmentArray = ["", attachment.url, $scope.currentTab];
-                    entryProcessService.addAttachment(entry, attachmentArray);
-                    $modalInstance.close();
-                }
-
-            }
-        });
     }
   
     $scope.clickImage = function ( image ) {
@@ -114,23 +56,6 @@ var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, 
             }
         }); 
 
-    }
-
-    var dataRef = new Firebase("https://familyarchive.firebaseio.com");
-    $scope.loginObj = $firebaseSimpleLogin(dataRef);
-    console.log($scope.loginObj.user);
-    if(!$scope.loginObj.user){
-        $scope.loginScreen();
-        /*
-         $scope.loginObj.$login('google', {
-         scope: 'email'
-         }).then(function(user) {
-         console.log('Logged in as: ', user.uid);
-         console.log(user);
-         }, function(error) {
-         console.error('Login failed: ', error);
-         });
-         */
     }
     
 });
