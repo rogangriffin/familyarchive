@@ -33,6 +33,7 @@ body {
     height: 175px;
     cursor: pointer;
     margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .modal-image {
@@ -96,4 +97,62 @@ body {
 .test-fail {
     color: #f00;
     margin-left: 30px;
+}
+
+.tab-content-attachment {
+    border-style: solid;
+    border-width: 1px;
+    border-top-width: 0px;
+    border-color: #ccc;
+    padding: 20px;
+}
+
+.tabset {
+    margin: 20px;
+}
+
+.tabset .nav-tabs {
+    cursor: pointer;
+}
+
+.tabset .form-control {
+    margin-bottom: 10px;
+}
+
+.modal-login {
+    padding: 30px;
+}
+
+.modal-login .col-md-6 {
+    cursor: pointer;
+    text-align: center;
+}
+
+.modal-login .col-md-6:hover {
+    background-color: #fafafa;
+    font-weight: 500;
+}
+
+.modal-login .col-md-6:first-of-type {
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #ccc;
+}
+
+.modal-login img {
+    display: block;
+    height: 90px;
+    margin: auto;
+    padding: 10px;
+}
+
+.modal-login .col-md-6:first-of-type img {
+    height: 90px;
+    padding: 0px;
+}
+
+
+
+.clear {
+    clear: both;
 }
