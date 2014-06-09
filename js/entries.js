@@ -1,18 +1,16 @@
 var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, $modal, $firebaseSimpleLogin, entryProcessService ) {
     $scope.entries = [];
 
-    /*
-    $http.get ( 'entries.json' ).success( function ( data ) {
+    $http.get ( 'js/entries.json' ).success( function ( data ) {
         $scope.entries = data;
         for ( var i = 0; i < $scope.entries.length; i++ ){
             entryProcessService.processEntry( $scope.entries [ i ] );
         }
     });
-    */
 
     $scope.loginScreen = function(){
         var modalInstance = $modal.open({
-            templateUrl: "modal-login.html",
+            templateUrl: "views/modal-login.html",
             controller: function ($scope, $modalInstance, loginObj) {
                 $scope.selectLoginService = function(service){
                     loginObj.$login(service, {
@@ -49,7 +47,7 @@ var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, 
     
     $scope.clickAddAttachment = function( entry ){
         var modalInstance = $modal.open({
-            templateUrl: "modal-addattachment.html",
+            templateUrl: "views/modal-addattachment.html",
             controller: function ($scope, $compile, $timeout, $rootScope, $modalInstance) {
 
                 $scope.tabs = $rootScope.attachmentServices;
