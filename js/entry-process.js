@@ -56,6 +56,23 @@ mainApp.service('entryProcessService', function( $injector ) {
         entry['title'] = entryTitle;
         entry['content'] = entryContent;
     }
+
+    this.addAttachment = function (entry, attachmentItem) {
+        var attachmentType = attachmentItem [ 2 ];
+
+        //Inject the attachment service as a dependency for this service
+        //if it hasn't already been injected
+        var serviceName = attachmentType + "AttachmentService";
+        if ( injectedAttachmentServices.hasOwnProperty ( serviceName )) {
+            var attachmentService = injectedAttachmentServices [ serviceName ];
+        } else {
+            var attachmentService = $injector.get ( serviceName );
+            injectedAttachmentServices [ serviceName ] = attachmentService;
+        }
+
+        attachmentService.getImages ( entry, attachmentItem );
+
+    }
     
     this.retrieveAttachments = function ( entry ) {
         //For each attachment use the attachment service for the given
@@ -64,19 +81,7 @@ mainApp.service('entryProcessService', function( $injector ) {
         if(entry.attachments){
             for ( var i = 0; i < entry.attachments.length; i++ ){
                 var attachmentItem = entry.attachments [ i ];
-                var attachmentType = attachmentItem [ 2 ];
-                
-                //Inject the attachment service as a dependency for this service
-                //if it hasn't already been injected
-                var serviceName = attachmentType + "AttachmentService";
-                if ( injectedAttachmentServices.hasOwnProperty ( serviceName )) {
-                    var attachmentService = injectedAttachmentServices [ serviceName ];
-                } else {
-                    var attachmentService = $injector.get ( serviceName );
-                    injectedAttachmentServices [ serviceName ] = attachmentService;
-                }
-                
-                attachmentService.getImages ( entry, attachmentItem );
+                this.addAttachment(entry, attachmentItem);
             }
         }
     }
