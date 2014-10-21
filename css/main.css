@@ -1,5 +1,4 @@
 body {
-  min-height: 2000px;
   padding-top: 70px;
   background-color: #eee;
 }
@@ -8,10 +7,15 @@ body {
     margin-bottom: 10px;
 }
 
+.whitespace {
+    white-space: pre-line;
+}
+
 .date {
     color: rgb(153, 153, 153);
     margin-left: 10px;
     font-weight: 100;
+    cursor: pointer;
 }
 
 .panel-title {
@@ -27,6 +31,10 @@ body {
 
 .panel-button:hover {
     color: #000;
+}
+
+.panel-body textarea {
+    width: 100%;
 }
 
 .image-thumbnail {
@@ -60,6 +68,19 @@ body {
 .modal-image .modal-body {
     padding-top: 0px;
     text-align: center;
+}
+
+.panel-footer .form-control {
+    border-radius: 0px;
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.panel-footer .btn {
+    border-radius: 0px;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-size: 12px;
 }
 
 .bootstrap .tags {

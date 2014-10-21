@@ -46,14 +46,11 @@ var picasawebService = mainApp.service('picasawebAttachmentService', function( $
             }
         });
 
-    }
+    };
     
     this.getModalHTMLTemplate = function (){
         return "js/services/picasaweb-modal.html"
-    }
-
-    $rootScope.attachmentServices.push("picasaweb");
-
+    };
 
 });
 

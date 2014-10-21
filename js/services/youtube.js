@@ -34,13 +34,11 @@ var youtubeService = mainApp.service('youtubeAttachmentService', function ($sce,
         results = url.match("[\\?&]v=([^&#]*)");
         vid = ( results === null ) ? url : results[1];
         return vid
-    }
+    };
 
     this.getModalHTMLTemplate = function () {
         return "js/services/youtube-modal.html"
-    }
-
-    $rootScope.attachmentServices.push("youtube");
+    };
 
 });
 

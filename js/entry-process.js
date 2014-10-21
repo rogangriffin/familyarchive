@@ -39,9 +39,9 @@ mainApp.service('entryProcessService', function( $injector ) {
                 var contentSplit = titleText.split("\n");
                 if(contentSplit[0].length<100){
                     entryTitle = contentSplit[0];
-                    entryContent = titleText.slice(firstSplit+1).replace(/\n/g, '<br />');
+                    entryContent = titleText.slice(firstSplit+1);
                 } else {
-                    entryContent = titleText.replace(/\n/g, '<br />');
+                    entryContent = titleText;
                 }
             } else {
                 //If the content has no line break but is less than 100 characters
@@ -54,7 +54,7 @@ mainApp.service('entryProcessService', function( $injector ) {
             }
         }
         entry['title'] = entryTitle;
-        entry['content'] = entryContent;
+        entry['contentbody'] = entryContent;
     }
 
     this.addAttachment = function (entry, attachmentItem) {

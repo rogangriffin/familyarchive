@@ -15,6 +15,7 @@
     <script type='text/javascript'
             src='https://cdn.firebase.com/js/simple-login/1.4.1/firebase-simple-login.js'>
     </script>
+    <script src='js/helper.js'></script>
     <script src='js/main.js'></script>
     <script src='js/entries.js'></script>
     <script src='js/entry-process.js'></script>
@@ -50,12 +51,12 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container" id="main-container">
 
     <div class="panel" ng-repeat="entry in entries">
         <div class="panel-heading clearfix">
-            <h4 class="panel-title pull-left">{{entry.title}}</h4>
-            <span class="date">{{entry.date}}</span>
+            <h4 class="panel-title pull-left" ng-click="entry.editcontent = true">{{entry.title}}</h4>
+            <span class="date" ng-click="editEntryDate(entry)">{{entry.date}}</span>
 
             <div class="btn-group pull-right">
                 <span class="glyphicon glyphicon-chevron-down pull-right panel-button dropdown-toggle"></span>
@@ -67,7 +68,13 @@
             </div>
         </div>
         <div class="panel-body">
-            {{entry.content}}
+            <div ng-hide="entry.editcontent" class="whitespace">{{entry.contentbody}}</div>
+            <div ng-show="entry.editcontent">
+                <textarea ng-model="entry.content"></textarea>
+                <div style="text-align: right;">
+                    <button ng-click='editEntryContent(entry)' class="btn btn-primary">Save</button>
+                </div>
+            </div>
             <img ng-repeat="image in entry.images" ng-src="{{image.thumbnailsrc}}"
                  class="image-thumbnail" ng-click="clickImage(image)"></img>
         </div>
@@ -77,10 +84,16 @@
                     <b>{{comment.author}}</b>
                     <span class="date">{{comment.date}}</span>
                 </div>
-                {{comment.content}}
+                <div class="whitespace">{{comment.content}}</div>
+            </div>
+            <input type="text" placeholder="Add a comment..." class="form-control" ng-hide="entry.addingComment" ng-click="entry.addingComment = true"></input>
+            <div ng-show="entry.addingComment">
+                <textarea class="form-control" ng-model="entry.txtComment" focus-me="entry.addingComment"></textarea>
+                <button class="btn btn-primary" ng-click="addComment(entry,entry.txtComment)" ng-disabled="!entry.txtComment" >Comment</button>
+                <button class="btn btn-default" ng-click="entry.addingComment = false; entry.txtComment = ''">Cancel</button>
             </div>
         </div>
-        <tags-input ng-model="entry.tags" custom-class="bootstrap"></tags-input>
+        <tags-input ng-model="entry.tags" custom-class="bootstrap" on-tag-added="tagAdded(entry,$tag)" on-tag-removed="tagRemoved(entry,$tag)"></tags-input>
     </div>
 
 

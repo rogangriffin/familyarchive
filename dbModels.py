@@ -4,11 +4,12 @@ class Marriage(db.Model):
 	pass
 
 class Person(db.Model):
-    username = db.UserProperty()
+    userid = db.StringProperty()
     fullname = db.StringProperty()
     marriage = db.ReferenceProperty(Marriage, collection_name="mymarriage")
     parentmarriage = db.ReferenceProperty(Marriage, collection_name="parentmarriage")
     email = db.StringProperty()
+    inviteid = db.StringProperty()
 
 class Comment(db.Model):
 	author = db.ReferenceProperty(Person)
@@ -17,8 +18,9 @@ class Comment(db.Model):
 	metaindex = db.IntegerProperty()
 
 class Attachment(db.Model):
-	filename = db.StringProperty()
 	attachmentType = db.StringProperty()
+	url = db.StringProperty()
+	attachmentMeta = db.StringProperty()
 	author = db.ReferenceProperty(Person)
 	ancestorlist = db.StringListProperty()
 	date = db.DateTimeProperty(auto_now_add=True)
