@@ -23,7 +23,7 @@ var entriesCtrl = mainApp.controller ( 'EntriesCtrl', function ( $scope, $http, 
 
         if(getParameterByName("invite")){
 
-            $http({method: 'GET', url: '/signup', params: {userid: $scope.loginObj.user.uid, email: $scope.loginObj.user.email, invite: getParameterByName("invite")}}).
+            $http({method: 'POST', url: '/signup', params: {userid: $scope.loginObj.user.uid, email: $scope.loginObj.user.email, invite: getParameterByName("invite")}}).
                 success(function(data) {
                     $scope.getEntries();
                 }).

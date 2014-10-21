@@ -279,8 +279,8 @@ class InvitePerson(RequestHandler):
         mail.send_mail(sender="rogangriffin@gmail.com", to="rogangriffin@gmail.com", subject="Family Record Invitation", body=msgBody)
         self.response.out.write(msgBody)
 
-class SignupPerson(RequestHandler):
-    def completeRequest(self):
+class SignupPerson(webapp.RequestHandler):
+    def post(self):
         invite = self.request.get('invite')
         email = self.request.get('email')
         userid = self.request.get('userid')
